@@ -1,5 +1,5 @@
-#ifndef RAY_TRACING_WEEKEND_H
-#define RAY_TRACING_WEEKEND_H
+#ifndef RAY_TRACING_IN_ONE_WEEKEND_H
+#define RAY_TRACING_IN_ONE_WEEKEND_H
 
 #include <cmath>
 #include <limits>

@@ -5,7 +5,26 @@
 #include "src/ray.h"
 #include "src/vec3.h"
 
+double hit_sphere(const point3 &center, double radius, const ray &r) {
+    vec3 oc = r.origin() - center;
+    auto a = r.direction().length_squared();
+    auto half_b = oc.dot(r.direction());
+    auto c = oc.length_squared() - radius * radius;
+    auto discriminant = half_b * half_b - a * c;
+
+    if (discriminant < 0) {
+        return -1.;
+    } 
+    return (-half_b - sqrt(discriminant)) / a;
+}
+
 color ray_color(const ray &r) {
+    auto t = hit_sphere(point3{0, 0, -1}, 0.5, r);
+    if (t > 0.) {
+        vec3 n = unit_vector(r.at(t) - vec3{0, 0, -1});
+        return 0.5 * color{n.x + 1, n.y + 1, n.z + 1};
+    }
+
     vec3 unit_direction = unit_vector(r.direction());
     auto a = 0.5 * (unit_direction.y + 1.);
     return (1. - a) * color{1., 1., 1.} + a * color{0.5, 0.7, 1.};
@@ -15,7 +34,7 @@ int main(int, char**){
     // image properties
     //--------------------------------------------------------------
     auto aspect_ratio = 16./9.;
-    int image_width = 400;
+    int image_width = 600;
 
     int image_height = static_cast<int>(image_width / aspect_ratio);
     image_height = (image_height < 1) ? 1 : image_height;

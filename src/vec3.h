@@ -60,6 +60,18 @@ public:
                     e[2] * v.e[0] - e[0] * v.e[2],
                     e[0] * v.e[1] - e[1] * v.e[0]};
     }
+
+    static vec3 random() {
+        return vec3{random_double(),
+                    random_double(),
+                    random_double()};
+    }
+
+    static vec3 random(double min, double max) {
+        return vec3{random_double(min, max),
+                    random_double(min, max),
+                    random_double(min, max)};
+    }
 };
 
 using point3 = vec3;
@@ -94,6 +106,26 @@ inline vec3 operator/(vec3 v, double t) {
 
 inline vec3 unit_vector(vec3 v) {
     return v / v.length();
+}
+
+inline vec3 random_in_unit_sphere() {
+    while (true) {
+        auto p = vec3::random(-1, 1);
+        if (p.length_squared() < 1)
+            return p;
+    }
+}
+
+inline vec3 random_unit_vector() {
+    return unit_vector(random_in_unit_sphere());
+}
+
+inline vec3 random_on_hemisphere(const vec3 &n) {
+    vec3 on_unit_sphere = random_unit_vector();
+    if (on_unit_sphere.dot(n) > 0.)
+        return on_unit_sphere;
+    else
+        return -on_unit_sphere;
 }
 
 #endif

@@ -1,12 +1,15 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
-#include "ray.h"
+#include "ray-tracing-in-one-weekend.h"
+
+class material;
 
 class hit_record {
 public:
     point3 p;
     vec3 n;
+    shared_ptr<material> mat;
     double t;
     bool front_face;
 

@@ -1,11 +1,18 @@
 #include <iostream>
 #include <fstream>
 
+#include "src/ray-tracing-weekend.h"
 #include "src/color.h"
-#include "src/ray.h"
-#include "src/vec3.h"
+#include "src/hittable.h"
+#include "src/hittable-list.h"
+#include "src/sphere.h"
 
-color ray_color(const ray &r) {
+color ray_color(const ray &r, const hittable &world) {
+    hit_record rec;
+    if (world.hit(r, interval(0, infinity), rec)) {
+        return 0.5 * (rec.n + color{1, 1, 1});
+    }
+
     vec3 unit_direction = unit_vector(r.direction());
     auto a = 0.5 * (unit_direction.y + 1.);
     return (1. - a) * color{1., 1., 1.} + a * color{0.5, 0.7, 1.};
@@ -14,14 +21,23 @@ color ray_color(const ray &r) {
 int main(int, char**){
     // image properties
     //--------------------------------------------------------------
+
     auto aspect_ratio = 16./9.;
-    int image_width = 400;
+    int image_width = 600;
 
     int image_height = static_cast<int>(image_width / aspect_ratio);
     image_height = (image_height < 1) ? 1 : image_height;
 
+    // world
+    //--------------------------------------------------------------
+
+    hittable_list world;
+    world.add(make_shared<sphere>(point3{0, 0, -1}, 0.5));
+    world.add(make_shared<sphere>(point3{0, -100.5, -1}, 100));
+
     // camera properties
     //--------------------------------------------------------------
+
     auto focal_length = 1.;
     auto viewport_height = 2.;
     auto viewport_width = viewport_height
@@ -61,7 +77,7 @@ int main(int, char**){
             auto ray_direction = pixel_center - camera_center;
             ray r{camera_center, ray_direction};
 
-            color pixel_color = ray_color(r);
+            color pixel_color = ray_color(r, world);
             write_color(out, pixel_color);
         }
     }

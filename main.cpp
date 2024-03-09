@@ -1,16 +1,16 @@
 #include <iostream>
 
 #include "src/ray-tracing-in-one-weekend.h"
-#include "src/camera.h"
-#include "src/color.h"
-#include "src/hittable-list.h"
-#include "src/material.h"
-#include "src/sphere.h"
+#include "src/renderer/camera.h"
+#include "src/renderer/hittable-list.h"
+#include "src/mats/color.h"
+#include "src/mats/material.h"
+#include "src/geom/sphere.h"
 
 int main(int, char**){
     hittable_list world;
 
-    auto material_ground = make_shared<lambertian>(color{0.8, 0.8, 0.});
+    auto material_ground = make_shared<lambertian>(color{0.5, 0.5, 0.5});
     world.add(make_shared<sphere>(point3{ 0., -1000, 0}, 1000, material_ground));
 
     for (int a = -11; a < 11; ++a) {
@@ -55,7 +55,7 @@ int main(int, char**){
 
     camera cam;
     cam.aspect_ratio      = 16./9.;
-    cam.image_width       = 1200;
+    cam.image_width       = 800;
     cam.samples_per_pixel = 100;
     cam.max_depth         = 50;
 

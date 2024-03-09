@@ -1,7 +1,7 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
-#include "ray-tracing-in-one-weekend.h"
+#include "../ray-tracing-in-one-weekend.h"
 
 class material;
 

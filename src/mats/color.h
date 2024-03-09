@@ -2,9 +2,12 @@
 #define COLOR_H
 
 #include <iostream>
-#include "vec3.h"
+#include "../geom/vec3.h"
 
 using color = vec3;
+
+const color COLOR_BLACK = color{0, 0, 0};
+const color COLOR_WHITE = color{1, 1, 1};
 
 inline double linear_to_gamma(double linear_component) {
     return sqrt(linear_component);

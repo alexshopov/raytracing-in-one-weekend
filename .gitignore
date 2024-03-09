@@ -17,4 +17,4 @@ build/
 main
 main.dSYM/
 
-out.ppm
+*.ppm

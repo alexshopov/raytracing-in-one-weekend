@@ -4,10 +4,10 @@
 #include <iostream>
 #include <fstream>
 
-#include "ray-tracing-in-one-weekend.h"
-#include "color.h"
+#include "../ray-tracing-in-one-weekend.h"
 #include "hittable.h"
-#include "material.h"
+#include "../mats/color.h"
+#include "../mats/material.h"
 
 class camera {
     int image_height;
@@ -54,19 +54,19 @@ class camera {
         hit_record rec;
 
         if (depth <= 0.)
-            return color{0, 0, 0};
+            return COLOR_BLACK;
 
         if (world.hit(r, interval(0.001, infinity), rec)) {
             ray scattered;
             color attentuation;
             if (rec.mat->scatter(r, rec, attentuation, scattered))
                 return attentuation * ray_color(scattered, depth - 1, world);
-            return color{0, 0, 0};
+            return COLOR_BLACK;
         }
 
         vec3 unit_direction = unit_vector(r.direction());
         auto a = 0.5 * (unit_direction.y + 1.);
-        return (1. - a) * color{1., 1., 1.} + a * color{0.5, 0.7, 1.};
+        return (1. - a) * COLOR_WHITE + a * color{0.5, 0.7, 1.};
     }
 
     /**

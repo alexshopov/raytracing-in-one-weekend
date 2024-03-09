@@ -61,9 +61,18 @@ public:
         double refraction_ratio = rec.front_face ? (1. / ir) : ir;
 
         vec3 unit_direction = unit_vector(r_in.direction());
-        vec3 refracted = refract(unit_direction, rec.n, refraction_ratio);
+        double cos_theta = fmin(-unit_direction.dot(rec.n), 1.);
+        double sin_theta = sqrt(1. - cos_theta * cos_theta);
 
-        scattered = ray(rec.p, refracted);
+        bool cannot_refract = refraction_ratio * sin_theta > 1.;
+        vec3 direction;
+
+        if (cannot_refract)
+            direction = reflect(unit_direction, rec.n);
+        else
+            direction = refract(unit_direction, rec.n, refraction_ratio);
+
+        scattered = ray(rec.p, direction);
         return true;
     }
 };

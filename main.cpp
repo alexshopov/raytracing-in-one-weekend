@@ -10,6 +10,8 @@
 int main(int, char**){
     hittable_list world;
 
+    auto R = cos(pi / 4);
+
     auto material_ground = make_shared<lambertian>(color{0.8, 0.8, 0.});
     auto material_center = make_shared<lambertian>(color{0.1, 0.2, 0.5});
     auto material_left   = make_shared<dielectric>(1.5);
@@ -22,10 +24,15 @@ int main(int, char**){
     world.add(make_shared<sphere>(point3{ 1.,    0.,  -1},  0.5, material_right));
 
     camera cam;
-    cam.aspect_ratio = 16./9.;
-    cam.image_width = 400;
+    cam.aspect_ratio      = 16./9.;
+    cam.image_width       = 400;
     cam.samples_per_pixel = 100;
-    cam.max_depth = 50;
+    cam.max_depth         = 50;
+
+    cam.vfov     = 20;
+    cam.lookfrom = point3{-2, 2, 1};
+    cam.lookat   = point3{0, 0, -1};
+    cam.vup      = vec3{0, 1, 0};
 
     cam.render(world);
 }

@@ -1,12 +1,14 @@
 # raytracing-in-one-weekend
-Working through Shirley et al's Raytracing in One Weekend
+Working through Shirley et al's Ray Tracing in One Weekend
 
 https://raytracing.github.io/books/RayTracingInOneWeekend.html
 
 ## ToDo: Expanded Functionality
 
-- Implement RIB file parser. Why RIB? Because I worked with Renderman in college and always wanted to try writing a Renderman compliant renderer. 
-ref: https://renderman.pixar.com/resources/RenderMan_20/ribBinding.html
+- Continue with Ray Tracing: The Next Week
+  
+- Implement RIB file parser. Why RIB? Because I worked with Renderman in college and always wanted to try writing a Renderman compliant renderer.
+  ref: https://renderman.pixar.com/resources/RenderMan_20/ribBinding.html
 
 - Convert to GPU-based renderer using CUDA. 
 
